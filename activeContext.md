@@ -6,29 +6,35 @@ Build a DBMS-focused "Student Attendance and Grade Management System" mini-proje
 ## Tech Stack Decisions
 - **Frontend**: React, Tailwind CSS (via Vite)
 - **Backend**: Node.js, Express
-- **Database**: MySQL
+- **Database**: MySQL (using `mysql2/promise`)
 - **Animations**: Minimal CSS
 
 ## Folder Structure
-```
+```text
 student-dbms-project/
- ├── frontend/       (React, Vite)
+ ├── frontend/       (React, Vite, Tailwind)
+     ├── src/components/
+     ├── src/pages/
+     └── src/utils/
  ├── backend/        (Node.js, queries)
- ├── animations/
- ├── public/assets/
+     ├── config/     (db.js, initDB.js)
+     ├── controllers/
+     ├── queries/    (Raw SQLs separated logically)
+     └── routes/
 ```
 
-## Features
-- Add Students
-- Mark Attendance
-- Record Grades
-- View Dashboard / Reports (Attendance %, Avg Marks)
+## Features Complete
+- Add Students (INSERT/SELECT queries)
+- Mark Attendance (INSERT, fetching reports using JOINs)
+- Record Grades (INSERT/SELECT)
+- View Dashboard / Reports (calculates Attendance %, Avg Marks using JOIN, AVG, COUNT, GROUP BY queries)
 
 ## Database Design
-1. `students` (id PK, name, roll_number)
-2. `attendance` (id PK, student_id FK, date, status)
-3. `grades` (id PK, student_id FK, subject, marks)
+1. `students` (id PK, name, roll_number UNIQUE)
+2. `attendance` (id PK, student_id FK, date, status ENUM('Present', 'Absent'))
+3. `grades` (id PK, student_id FK, subject, marks CHECK)
 
-## Future Scope
-- Filtering by student
-- Displaying top performers
+## Current Status
+- Both frontend and backend servers are implemented and run smoothly. 
+- The MySQL database correctly auto-initializes schemas when the backend spins up.
+- **Next Session Checkpoint:** Run manual integration testing (insert data from UI, confirm proper propagation to DB and DB reads mapping accurately back to Reports page).

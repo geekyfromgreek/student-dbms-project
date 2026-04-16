@@ -1,11 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../utils/api';
 
 const Students = () => {
-  // Mock data for UI development before actual DB connection
-  const [students, setStudents] = useState([
-    { id: 1, name: 'John Doe', roll_number: 'CS-001' },
-    { id: 2, name: 'Jane Smith', roll_number: 'CS-002' },
-  ]);
+  const [students, setStudents] = useState([]);
+  const [formData, setFormData] = useState({ name: '', roll_number: '' });
+  const [loading, setLoading] = useState(true);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await api.get('/students');
+      setStudents(response.data);
+    } catch (error) {
+      console.error('Error fetching students:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.roll_number) return;
+    
+    try {
+      await api.post('/students', formData);
+      setFormData({ name: '', roll_number: '' });
+      fetchStudents(); // Refresh list
+    } catch (error) {
+      alert(error.response?.data?.error || 'Failed to add student');
+    }
+  };
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -17,13 +44,15 @@ const Students = () => {
       {/* Add Student Form */}
       <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 backdrop-blur-sm">
         <h3 className="text-xl font-semibold mb-4 text-blue-400 border-l-4 border-blue-500 pl-3">Add New Student</h3>
-        <form className="flex flex-wrap gap-4 items-end">
+        <form className="flex flex-wrap gap-4 items-end" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
             <label className="text-sm text-slate-400 font-medium">Full Name</label>
             <input 
               type="text" 
               className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600"
               placeholder="e.g. Rahul Sharma"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
           </div>
           <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
@@ -32,9 +61,11 @@ const Students = () => {
               type="text" 
               className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600"
               placeholder="e.g. 101"
+              value={formData.roll_number}
+              onChange={(e) => setFormData({ ...formData, roll_number: e.target.value })}
             />
           </div>
-          <button className="bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-2.5 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/20 active:scale-95">
+          <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-2.5 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/20 active:scale-95">
             Execute INSERT
           </button>
         </form>
@@ -56,16 +87,18 @@ const Students = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700/50">
-              {students.map((student) => (
+              {loading ? (
+                <tr><td colSpan="3" className="px-6 py-8 text-center text-slate-400">Loading...</td></tr>
+              ) : students.map((student) => (
                 <tr key={student.id} className="hover:bg-slate-800/50 transition-colors">
                   <td className="px-6 py-4 text-slate-300 font-mono text-sm">{student.id}</td>
                   <td className="px-6 py-4 text-slate-200 font-medium">{student.name}</td>
                   <td className="px-6 py-4 text-slate-400">{student.roll_number}</td>
                 </tr>
               ))}
-              {students.length === 0 && (
+              {!loading && students.length === 0 && (
                 <tr>
-                  <td colSpan="3" className="px-6 py-8 text-center text-slate-500 italic">No records found. Setup database to load data.</td>
+                  <td colSpan="3" className="px-6 py-8 text-center text-slate-500 italic">No records found.</td>
                 </tr>
               )}
             </tbody>
