@@ -3,7 +3,7 @@
 A full-stack DBMS-focused project built with Node.js, Express, React, Tailwind CSS, and MySQL. This system provides a comprehensive interface for managing student records, tracking attendance, and recording grades with real-time reporting.
 
 ## 🚀 Demo
-**Live Hosting Link:** [View Live Site](https://{{GITHUB_USERNAME}}.github.io/student-dbms-project/)
+**Live Hosting Link:** [View Live Site](https://geekyfromgreek.github.io/student-dbms-project/)
 
 ## 🛠 Tech Stack
 - **Frontend**: React (Vite), Tailwind CSS, Lucide React (Icons)
