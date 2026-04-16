@@ -35,6 +35,6 @@ student-dbms-project/
 3. `grades` (id PK, student_id FK, subject, marks CHECK)
 
 ## Current Status
-- Both frontend and backend servers are implemented and run smoothly. 
-- The MySQL database correctly auto-initializes schemas when the backend spins up.
-- **Next Session Checkpoint:** Run manual integration testing (insert data from UI, confirm proper propagation to DB and DB reads mapping accurately back to Reports page).
+- Project is feature-complete and locally committed.
+- GitHub remote set to `https://github.com/geekyfromgreek/student-dbms-project.git`.
+- **Next Step:** User push to GitHub and Render setup.

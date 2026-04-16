@@ -79,7 +79,7 @@ const Reports = () => {
       </div>
 
       {/* Reports Table */}
-      <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl overflow-hidden backdrop-blur-sm">
+      <div className="glass-card rounded-2xl overflow-hidden">
         <div className="p-6 border-b border-slate-700/50 flex justify-between flex-col md:flex-row gap-3 items-start md:items-center bg-slate-800/20">
           <h3 className="text-xl font-semibold text-slate-200">Combined Query Results</h3>
           <span className="text-[10px] sm:text-xs font-mono bg-slate-900 text-amber-400 px-3 py-1 rounded-full border border-slate-700">SELECT s.name, AVG(g.marks), attendance % ... GROUP BY s.id</span>

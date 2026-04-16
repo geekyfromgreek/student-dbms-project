@@ -11,7 +11,7 @@ const Sidebar = () => {
     }`;
 
   return (
-    <aside className="w-64 bg-[#0f172a] border-r border-slate-800 h-screen sticky top-0 flex gap-1 flex-col">
+    <aside className="w-64 glass-panel border-r border-slate-800/50 h-screen sticky top-0 flex gap-1 flex-col z-20">
       <div className="p-6">
         <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
           Student DBMS
@@ -38,12 +38,15 @@ const Sidebar = () => {
         </NavLink>
       </nav>
       
-      <div className="p-4 m-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+      <div className="p-4 m-4 rounded-xl bg-slate-900/40 border border-white/5 backdrop-blur-md">
         <div className="text-sm text-slate-400">
-          <p className="font-semibold text-slate-300 mb-1">Status</p>
+          <p className="font-semibold text-slate-300 mb-1">Database Status</p>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-xs">Database Connected</span>
+            <div className="relative">
+               <span className="block w-2 h-2 rounded-full bg-emerald-500"></span>
+               <span className="absolute inset-0 w-2 h-2 rounded-full bg-emerald-500 animate-ping opacity-75"></span>
+            </div>
+            <span className="text-xs font-medium text-emerald-400/90">Connected</span>
           </div>
         </div>
       </div>

@@ -13,15 +13,12 @@
 - Started backend API server (runs on port 5000) and initialized database successfully.
 - Started frontend development server (runs on port 5173).
 - Wired frontend pages to backend APIs.
+- Updated README with correct GitHub username.
+- Set up git remote and prepared for push.
 
 ## In Progress
-- Fully manual integration testing for UI operations.
+- Pushing to GitHub repository (`geekyfromgreek/student-dbms-project`).
 
-## Pending / Next Steps for Next Session
-- **Manual Verification:** Test the entire app flow through the browser to verify data propagates correctly:
-  - Add newly created students via the UI.
-  - Test constraints (attempt to add duplicates, etc).
-  - Add attendance records using the new student IDs.
-  - Insert grades data.
-  - Refresh and verify the Reports dashboard aggregations (`AVG()`, `COUNT()`, `JOIN`) reflect the correct merged statuses.
-- UI bug-fixing and edge cases (empty state layouts, missing IDs).
+## Pending / Next Steps
+- Guide user through final data verification on Render.
+- Set up Render/Railway for full-stack hosting.

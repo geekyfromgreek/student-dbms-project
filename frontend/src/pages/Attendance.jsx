@@ -51,7 +51,7 @@ const Attendance = () => {
       </header>
 
       {/* Mark Attendance Form */}
-      <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 backdrop-blur-sm">
+      <div className="glass-card rounded-2xl p-6">
         <h3 className="text-xl font-semibold mb-4 text-emerald-400 border-l-4 border-emerald-500 pl-3">Record Attendance</h3>
         <form className="flex flex-wrap gap-4 items-end" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
@@ -94,7 +94,7 @@ const Attendance = () => {
       </div>
 
       {/* Attendance Table */}
-      <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl overflow-hidden backdrop-blur-sm">
+      <div className="glass-card rounded-2xl overflow-hidden">
         <div className="p-6 border-b border-slate-700/50 flex justify-between items-center bg-slate-800/20">
           <h3 className="text-xl font-semibold text-slate-200">Database View: `attendance` JOIN `students`</h3>
           <span className="hidden md:inline-block text-xs font-mono bg-slate-900 text-emerald-400 px-3 py-1 rounded-full border border-slate-700 overflow-hidden text-ellipsis whitespace-nowrap">SELECT a.id, s.name, a.date, a.status FROM attendance a JOIN students s</span>
