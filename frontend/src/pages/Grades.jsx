@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
+import SpotlightCard from '../components/SpotlightCard';
 
 const Grades = () => {
   const [gradesRecords, setGradesRecords] = useState([]);
@@ -45,96 +46,114 @@ const Grades = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in pb-10">
       <header>
-        <h2 className="text-3xl font-bold text-slate-100">Grades Entry</h2>
-        <p className="text-slate-400 mt-2">Record marks and list grades (JOIN query demo)</p>
+        <h2 className="text-4xl font-black text-white tracking-tight">GRADES</h2>
+        <div className="flex items-center gap-3 mt-2">
+          <div className="h-1 w-12 bg-purple-500 rounded-full"></div>
+          <p className="text-slate-400 font-medium tracking-wide uppercase text-xs">Record marks and list grades (JOIN query)</p>
+        </div>
       </header>
 
       {/* Enter Marks Form */}
-      <div className="glass-card rounded-2xl p-6">
-        <h3 className="text-xl font-semibold mb-4 text-purple-400 border-l-4 border-purple-500 pl-3">Enter Subject Marks</h3>
-        <form className="flex flex-wrap gap-4 items-end" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
-            <label className="text-sm text-slate-400 font-medium">Select Student</label>
-            <select 
-              className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-              value={formData.student_id}
-              onChange={(e) => setFormData({ ...formData, student_id: e.target.value })}
-            >
-              <option value="">-- Choose Student --</option>
-              {students.map(s => (
-                <option key={s.id} value={s.id}>{s.name} ({s.roll_number})</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
-             <label className="text-sm text-slate-400 font-medium">Subject</label>
-            <input 
-              type="text" 
-              className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600"
-              placeholder="e.g. DBMS"
-              value={formData.subject}
-              onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-            />
-          </div>
-          <div className="flex flex-col gap-2 flex-1 min-w-[150px]">
-             <label className="text-sm text-slate-400 font-medium">Marks Obtained</label>
-            <input 
-              type="number" 
-              min="0"
-              max="100"
-              className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600"
-              placeholder="0 - 100"
-              value={formData.marks}
-              onChange={(e) => setFormData({ ...formData, marks: e.target.value })}
-            />
-          </div>
-          <button type="submit" className="bg-purple-600 hover:bg-purple-500 text-white font-medium px-6 py-2.5 rounded-lg transition-all duration-300 shadow-lg shadow-purple-500/20 active:scale-95">
-            Execute INSERT
-          </button>
-        </form>
-      </div>
+      <SpotlightCard color="rgba(168, 85, 247, 0.2)" className="rounded-3xl overflow-hidden border border-white/5">
+        <div className="glass-card p-8">
+          <h3 className="text-xl font-bold mb-6 text-purple-400 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]"></span>
+            Enter Subject Marks
+          </h3>
+          <form className="flex flex-wrap gap-6 items-end" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-2 flex-1 min-w-[240px]">
+              <label className="text-xs text-slate-500 font-bold uppercase tracking-wider ml-1">Select Student</label>
+              <select 
+                className="bg-black/20 border border-white/10 rounded-xl px-5 py-3 text-slate-200 outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all backdrop-blur-md"
+                value={formData.student_id}
+                onChange={(e) => setFormData({ ...formData, student_id: e.target.value })}
+              >
+                <option value="" className="bg-slate-900">-- Choose Student --</option>
+                {students.map(s => (
+                  <option key={s.id} value={s.id} className="bg-slate-900">{s.name} ({s.roll_number})</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-2 flex-1 min-w-[240px]">
+               <label className="text-xs text-slate-500 font-bold uppercase tracking-wider ml-1">Subject</label>
+              <input 
+                type="text" 
+                className="bg-black/20 border border-white/10 rounded-xl px-5 py-3 text-slate-200 outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all placeholder-slate-600 backdrop-blur-md"
+                placeholder="e.g. DBMS"
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+              />
+            </div>
+            <div className="flex flex-col gap-2 flex-1 min-w-[150px]">
+               <label className="text-xs text-slate-500 font-bold uppercase tracking-wider ml-1">Marks Obtained</label>
+              <input 
+                type="number" 
+                min="0"
+                max="100"
+                className="bg-black/20 border border-white/10 rounded-xl px-5 py-3 text-slate-200 outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all placeholder-slate-600 backdrop-blur-md"
+                placeholder="0 - 100"
+                value={formData.marks}
+                onChange={(e) => setFormData({ ...formData, marks: e.target.value })}
+              />
+            </div>
+            <button type="submit" className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-3 rounded-xl transition-all duration-500 shadow-xl shadow-purple-500/20 active:scale-95">
+              Execute INSERT
+            </button>
+          </form>
+        </div>
+      </SpotlightCard>
 
       {/* Grades Table */}
-      <div className="glass-card rounded-2xl overflow-hidden">
-        <div className="p-6 border-b border-slate-700/50 flex justify-between items-center bg-slate-800/20">
-          <h3 className="text-xl font-semibold text-slate-200">Database View: `grades` JOIN `students`</h3>
-          <span className="hidden md:inline-block text-xs font-mono bg-slate-900 text-purple-400 px-3 py-1 rounded-full border border-slate-700">SELECT g.id, s.name, g.subject, g.marks FROM grades g JOIN students s</span>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-slate-900/50 text-slate-400 text-sm uppercase tracking-wider">
-              <tr>
-                <th className="px-6 py-4 font-medium">Record ID (PK)</th>
-                <th className="px-6 py-4 font-medium">Student Name</th>
-                <th className="px-6 py-4 font-medium">Subject Name</th>
-                <th className="px-6 py-4 font-medium">Marks</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-700/50">
-              {loading ? (
-                <tr><td colSpan="4" className="px-6 py-8 text-center text-slate-400">Loading...</td></tr>
-              ) : gradesRecords.map((record) => (
-                <tr key={record.id} className="hover:bg-slate-800/50 transition-colors">
-                  <td className="px-6 py-4 text-slate-300 font-mono text-sm">{record.id}</td>
-                  <td className="px-6 py-4 text-slate-200 font-medium">{record.name} <span className="text-xs text-slate-500 ml-1">(Roll: {record.roll_number})</span></td>
-                  <td className="px-6 py-4 text-slate-400">{record.subject}</td>
-                  <td className="px-6 py-4">
-                    <span className="font-semibold text-slate-200">{record.marks}</span>
-                    <span className="text-slate-500 font-medium text-xs ml-1">/ 100</span>
-                  </td>
-                </tr>
-              ))}
-              {!loading && gradesRecords.length === 0 && (
+      <SpotlightCard color="rgba(168, 85, 247, 0.1)" className="rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+        <div className="glass-card">
+          <div className="p-8 border-b border-white/5 flex flex-wrap justify-between items-center gap-4 bg-white/[0.02]">
+            <div>
+              <h3 className="text-xl font-bold text-slate-100 italic tracking-tight">Database View: <span className="text-purple-400">grades JOIN students</span></h3>
+              <p className="text-slate-500 text-xs mt-1 font-mono">Relational data representation</p>
+            </div>
+            <span className="hidden md:inline-block text-[10px] font-black font-mono bg-purple-500/10 text-purple-400 px-4 py-2 rounded-full border border-purple-500/20 uppercase tracking-widest shadow-inner">
+              SELECT g.*, s.name FROM grades g JOIN students s
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead className="bg-white/[0.02] text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
                 <tr>
-                  <td colSpan="4" className="px-6 py-8 text-center text-slate-500 italic">No records found. Add students first, then enter their grades.</td>
+                  <th className="px-8 py-5">Record ID</th>
+                  <th className="px-8 py-5">Student Name</th>
+                  <th className="px-8 py-5">Subject</th>
+                  <th className="px-8 py-5 text-right">Marks</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {loading ? (
+                  <tr><td colSpan="4" className="px-8 py-12 text-center text-slate-500 animate-pulse">Fetching records...</td></tr>
+                ) : gradesRecords.map((record) => (
+                  <tr key={record.id} className="hover:bg-white/[0.05] transition-all duration-300 group">
+                    <td className="px-8 py-5 text-purple-400 font-mono text-sm font-black tracking-tighter">GR-{record.id.toString().padStart(3, '0')}</td>
+                    <td className="px-8 py-5 text-slate-200 font-bold group-hover:pl-10 transition-all duration-500">
+                      {record.name}
+                      <span className="text-[10px] text-slate-500 font-mono ml-2 block opacity-0 group-hover:opacity-100 transition-opacity">ID: {record.roll_number}</span>
+                    </td>
+                    <td className="px-8 py-5 text-slate-400 font-medium uppercase tracking-tighter text-sm">{record.subject}</td>
+                    <td className="px-8 py-5 text-right">
+                      <span className="font-black text-xl text-white tracking-tighter">{record.marks}</span>
+                      <span className="text-slate-500 text-[10px] font-bold ml-1">/100</span>
+                    </td>
+                  </tr>
+                ))}
+                {!loading && gradesRecords.length === 0 && (
+                  <tr>
+                    <td colSpan="4" className="px-8 py-12 text-center text-slate-500 italic font-medium">No academic records found in the database.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </SpotlightCard>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
+import SpotlightCard from '../components/SpotlightCard';
 
 const Attendance = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
@@ -44,95 +45,110 @@ const Attendance = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in pb-10">
       <header>
-        <h2 className="text-3xl font-bold text-slate-100">Attendance Management</h2>
-        <p className="text-slate-400 mt-2">Mark daily attendance and list records (JOIN query demo)</p>
+        <h2 className="text-4xl font-black text-white tracking-tight">ATTENDANCE</h2>
+        <div className="flex items-center gap-3 mt-2">
+          <div className="h-1 w-12 bg-emerald-500 rounded-full"></div>
+          <p className="text-slate-400 font-medium tracking-wide uppercase text-xs">Mark daily attendance and list records (JOIN query)</p>
+        </div>
       </header>
 
       {/* Mark Attendance Form */}
-      <div className="glass-card rounded-2xl p-6">
-        <h3 className="text-xl font-semibold mb-4 text-emerald-400 border-l-4 border-emerald-500 pl-3">Record Attendance</h3>
-        <form className="flex flex-wrap gap-4 items-end" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
-            <label className="text-sm text-slate-400 font-medium">Select Student</label>
-            <select 
-              className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-              value={formData.student_id}
-              onChange={(e) => setFormData({ ...formData, student_id: e.target.value })}
-            >
-              <option value="">-- Choose Student --</option>
-              {students.map(s => (
-                <option key={s.id} value={s.id}>{s.name} ({s.roll_number})</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
-             <label className="text-sm text-slate-400 font-medium">Date</label>
-            <input 
-              type="date" 
-              className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-              value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-            />
-          </div>
-          <div className="flex flex-col gap-2 flex-1 min-w-[150px]">
-             <label className="text-sm text-slate-400 font-medium">Status</label>
-            <select 
-              className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-200 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-              value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-            >
-              <option value="Present">Present</option>
-              <option value="Absent">Absent</option>
-            </select>
-          </div>
-          <button type="submit" className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-lg transition-all duration-300 shadow-lg shadow-emerald-500/20 active:scale-95">
-            Execute INSERT
-          </button>
-        </form>
-      </div>
+      <SpotlightCard color="rgba(16, 185, 129, 0.2)" className="rounded-3xl overflow-hidden border border-white/5">
+        <div className="glass-card p-8">
+          <h3 className="text-xl font-bold mb-6 text-emerald-400 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+            Record Attendance
+          </h3>
+          <form className="flex flex-wrap gap-6 items-end" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-2 flex-1 min-w-[240px]">
+              <label className="text-xs text-slate-500 font-bold uppercase tracking-wider ml-1">Select Student</label>
+              <select 
+                className="bg-black/20 border border-white/10 rounded-xl px-5 py-3 text-slate-200 outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 transition-all backdrop-blur-md"
+                value={formData.student_id}
+                onChange={(e) => setFormData({ ...formData, student_id: e.target.value })}
+              >
+                <option value="" className="bg-slate-900">-- Choose Student --</option>
+                {students.map(s => (
+                  <option key={s.id} value={s.id} className="bg-slate-900">{s.name} ({s.roll_number})</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
+               <label className="text-xs text-slate-500 font-bold uppercase tracking-wider ml-1">Date</label>
+              <input 
+                type="date" 
+                className="bg-black/20 border border-white/10 rounded-xl px-5 py-3 text-slate-200 outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 transition-all backdrop-blur-md"
+                value={formData.date}
+                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              />
+            </div>
+            <div className="flex flex-col gap-2 flex-1 min-w-[150px]">
+               <label className="text-xs text-slate-500 font-bold uppercase tracking-wider ml-1">Status</label>
+              <select 
+                className="bg-black/20 border border-white/10 rounded-xl px-5 py-3 text-slate-200 outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 transition-all backdrop-blur-md"
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              >
+                <option value="Present" className="bg-slate-900">Present</option>
+                <option value="Absent" className="bg-slate-900">Absent</option>
+              </select>
+            </div>
+            <button type="submit" className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-3 rounded-xl transition-all duration-500 shadow-xl shadow-emerald-500/20 active:scale-95">
+              Execute INSERT
+            </button>
+          </form>
+        </div>
+      </SpotlightCard>
 
       {/* Attendance Table */}
-      <div className="glass-card rounded-2xl overflow-hidden">
-        <div className="p-6 border-b border-slate-700/50 flex justify-between items-center bg-slate-800/20">
-          <h3 className="text-xl font-semibold text-slate-200">Database View: `attendance` JOIN `students`</h3>
-          <span className="hidden md:inline-block text-xs font-mono bg-slate-900 text-emerald-400 px-3 py-1 rounded-full border border-slate-700 overflow-hidden text-ellipsis whitespace-nowrap">SELECT a.id, s.name, a.date, a.status FROM attendance a JOIN students s</span>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-slate-900/50 text-slate-400 text-sm uppercase tracking-wider">
-              <tr>
-                <th className="px-6 py-4 font-medium">Record ID (PK)</th>
-                <th className="px-6 py-4 font-medium">Student Name</th>
-                <th className="px-6 py-4 font-medium">Date</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-700/50">
-              {loading ? (
-                <tr><td colSpan="4" className="px-6 py-8 text-center text-slate-400">Loading...</td></tr>
-              ) : attendanceRecords.map((record) => (
-                <tr key={record.id} className="hover:bg-slate-800/50 transition-colors">
-                  <td className="px-6 py-4 text-slate-300 font-mono text-sm">{record.id}</td>
-                  <td className="px-6 py-4 text-slate-200 font-medium">{record.name} <span className="text-xs text-slate-500 ml-1">(ID: {record.student_id})</span></td>
-                  <td className="px-6 py-4 text-slate-400">{new Date(record.date).toLocaleDateString()}</td>
-                  <td className="px-6 py-4">
-                    <span className={`px-2.5 py-1 text-xs rounded-md font-medium border ${record.status === 'Present' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`}>
-                      {record.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-              {!loading && attendanceRecords.length === 0 && (
+      <SpotlightCard color="rgba(16, 185, 129, 0.1)" className="rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+        <div className="glass-card">
+          <div className="p-8 border-b border-white/5 flex flex-wrap justify-between items-center gap-4 bg-white/[0.02]">
+            <div>
+              <h3 className="text-xl font-bold text-slate-100 italic tracking-tight">Database View: <span className="text-emerald-400">attendance</span></h3>
+              <p className="text-slate-500 text-xs mt-1 font-mono">Real-time attendance tracking</p>
+            </div>
+            <span className="hidden lg:inline-block text-[10px] font-black font-mono bg-emerald-500/10 text-emerald-400 px-4 py-2 rounded-full border border-emerald-500/20 uppercase tracking-widest shadow-inner">
+              SELECT a.*, s.name FROM attendance a JOIN students s
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead className="bg-white/[0.02] text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
                 <tr>
-                  <td colSpan="4" className="px-6 py-8 text-center text-slate-500 italic">No records found.</td>
+                  <th className="px-8 py-5">Record ID</th>
+                  <th className="px-8 py-5">Student Name</th>
+                  <th className="px-8 py-5">Date</th>
+                  <th className="px-8 py-5 text-right">Status</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {loading ? (
+                  <tr><td colSpan="4" className="px-8 py-12 text-center text-slate-500 animate-pulse">Synchronizing database...</td></tr>
+                ) : attendanceRecords.map((record) => (
+                  <tr key={record.id} className="hover:bg-white/[0.05] transition-all duration-300 group">
+                    <td className="px-8 py-5 text-emerald-400 font-mono text-sm font-black tracking-tighter">ATT-{record.id.toString().padStart(3, '0')}</td>
+                    <td className="px-8 py-5 text-slate-200 font-bold group-hover:pl-10 transition-all duration-500">{record.name}</td>
+                    <td className="px-8 py-5 text-slate-400 font-mono text-sm font-bold tracking-tighter">{new Date(record.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                    <td className="px-8 py-5 text-right">
+                      <span className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full border ${record.status === 'Present' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'}`}>
+                        {record.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {!loading && attendanceRecords.length === 0 && (
+                  <tr>
+                    <td colSpan="4" className="px-8 py-12 text-center text-slate-500 italic font-medium">No records found in the attendance register.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </SpotlightCard>
     </div>
   );
 };

@@ -7,7 +7,7 @@ Build a DBMS-focused "Student Attendance and Grade Management System" mini-proje
 - **Frontend**: React, Tailwind CSS (via Vite)
 - **Backend**: Node.js, Express
 - **Database**: MySQL (using `mysql2/promise`)
-- **Animations**: Minimal CSS
+- **Animations**: Premium CSS + React "Spotlight" system, interactive "Glass Magnifier" lens effects.
 
 ## Folder Structure
 ```text
@@ -34,7 +34,5 @@ student-dbms-project/
 2. `attendance` (id PK, student_id FK, date, status ENUM('Present', 'Absent'))
 3. `grades` (id PK, student_id FK, subject, marks CHECK)
 
-## Current Status
-- Project is feature-complete and locally committed.
-- GitHub remote set to `https://github.com/geekyfromgreek/student-dbms-project.git`.
-- **Next Step:** User push to GitHub and Render setup.
+- **Next Step:** Final project documentation update and deployment prep.
+- **Recent Update:** Implemented high-end Glassmorphism + Neon UI overhaul with interactive cursor-following spotlights and a magnifying lens menu effect.

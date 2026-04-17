@@ -15,6 +15,10 @@
 - Wired frontend pages to backend APIs.
 - Updated README with correct GitHub username.
 - Set up git remote and prepared for push.
+- Implemented **Premium Glass + Neon UI Overhaul** across all pages.
+- Created reusable **Spotlight Interaction System** for cursor-following neon glows.
+- Implemented **Magnifying Lens** menu effect with interactive optics and morphisms.
+- Enhanced global styling with high-end glassmorphism and ambient glows.
 
 ## In Progress
 - Pushing to GitHub repository (`geekyfromgreek/student-dbms-project`).
