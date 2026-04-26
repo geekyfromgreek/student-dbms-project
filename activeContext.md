@@ -24,15 +24,16 @@ student-dbms-project/
 ```
 
 ## Features Complete
-- Add Students (INSERT/SELECT queries)
-- Mark Attendance (INSERT, fetching reports using JOINs)
-- Record Grades (INSERT/SELECT)
-- View Dashboard / Reports (calculates Attendance %, Avg Marks using JOIN, AVG, COUNT, GROUP BY queries)
+- Full CRUD for Students (INSERT, SELECT, UPDATE, DELETE)
+- Attendance Management (INSERT, UPDATE, DELETE, JOIN reports)
+- Advanced Grades (INSERT, UPDATE, DELETE, Subject Selection, "Add New Subject")
+- Dynamic Reports (calculates Attendance %, Avg Marks using JOIN, AVG, COUNT, GROUP BY queries)
+- **Teacher's Guide**: Includes a "Terminal Demonstration (Live SQL)" section for presentation.
 
 ## Database Design
 1. `students` (id PK, name, roll_number UNIQUE)
 2. `attendance` (id PK, student_id FK, date, status ENUM('Present', 'Absent'))
 3. `grades` (id PK, student_id FK, subject, marks CHECK)
 
-- **Next Step:** Final project documentation update and deployment prep.
-- **Recent Update:** Implemented high-end Glassmorphism + Neon UI overhaul with interactive cursor-following spotlights and a magnifying lens menu effect.
+- **Next Step:** Assist user with final presentation prep or hosting setup.
+- **Recent Update:** Cleaned up UI (streamlined "INSERT" buttons) and added `workflow.md` to simplify technical concepts for presentation.

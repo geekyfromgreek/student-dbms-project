@@ -33,7 +33,7 @@ const Reports = () => {
 
   return (
     <div className="space-y-8 animate-fade-in pb-10">
-      <header>
+      <header className="opacity-0 animate-fade-in stagger-1">
         <h2 className="text-4xl font-black text-white tracking-tight">REPORTS</h2>
         <div className="flex items-center gap-3 mt-2">
           <div className="h-1 w-12 bg-amber-500 rounded-full"></div>
@@ -43,7 +43,7 @@ const Reports = () => {
 
       {/* Top Cards for summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <SpotlightCard color="rgba(99, 102, 241, 0.2)" className="rounded-3xl border border-white/5">
+        <SpotlightCard color="rgba(99, 102, 241, 0.2)" className="rounded-3xl border border-white/5 opacity-0 animate-fade-in stagger-2">
           <div className="glass-card p-8 flex items-center justify-between">
             <div>
                <p className="text-indigo-400 font-black text-[10px] uppercase tracking-[0.2em] mb-2">Total Students</p>
@@ -56,7 +56,7 @@ const Reports = () => {
           </div>
         </SpotlightCard>
 
-        <SpotlightCard color="rgba(245, 158, 11, 0.2)" className="rounded-3xl border border-white/5">
+        <SpotlightCard color="rgba(245, 158, 11, 0.2)" className="rounded-3xl border border-white/5 opacity-0 animate-fade-in stagger-3">
           <div className="glass-card p-8 flex items-center justify-between">
             <div>
                <p className="text-amber-400 font-black text-[10px] uppercase tracking-[0.2em] mb-2">Top Performer</p>
@@ -69,7 +69,7 @@ const Reports = () => {
           </div>
         </SpotlightCard>
 
-        <SpotlightCard color="rgba(16, 185, 129, 0.2)" className="rounded-3xl border border-white/5">
+        <SpotlightCard color="rgba(16, 185, 129, 0.2)" className="rounded-3xl border border-white/5 opacity-0 animate-fade-in stagger-4">
           <div className="glass-card p-8 flex items-center justify-between">
             <div>
                <p className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] mb-2">Avg Attendance</p>
@@ -89,7 +89,7 @@ const Reports = () => {
       </div>
 
       {/* Reports Table */}
-      <SpotlightCard color="rgba(245, 158, 11, 0.1)" className="rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+      <SpotlightCard color="rgba(245, 158, 11, 0.1)" className="rounded-3xl overflow-hidden border border-white/5 shadow-2xl opacity-0 animate-fade-in stagger-5">
         <div className="glass-card">
           <div className="p-8 border-b border-white/5 flex flex-wrap justify-between items-center gap-4 bg-white/[0.02]">
             <div>

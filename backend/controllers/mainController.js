@@ -3,7 +3,14 @@ const studentQueries = require('../queries/studentQueries');
 const attendanceQueries = require('../queries/attendanceQueries');
 const gradeQueries = require('../queries/gradeQueries');
 
-// Student Controllers
+/**
+ * Main Controller
+ * Handles business logic and database interactions for the application.
+ */
+
+// --- Student Controllers ---
+
+// Fetch all students (Read)
 exports.getStudents = async (req, res) => {
   try {
     const [rows] = await pool.query(studentQueries.getAllStudents);
@@ -13,6 +20,7 @@ exports.getStudents = async (req, res) => {
   }
 };
 
+// Add a new student (Create)
 exports.addStudent = async (req, res) => {
   const { name, roll_number } = req.body;
   try {
@@ -23,7 +31,33 @@ exports.addStudent = async (req, res) => {
   }
 };
 
-// Attendance Controllers
+// Update student details (Update)
+exports.updateStudent = async (req, res) => {
+  const { id } = req.params;
+  const { name, roll_number } = req.body;
+  try {
+    await pool.query(studentQueries.updateStudent, [name, roll_number, id]);
+    res.json({ message: 'Student updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Delete a student (Delete)
+// Note: Foreign Key constraints will automatically delete related attendance/grades
+exports.deleteStudent = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query(studentQueries.deleteStudent, [id]);
+    res.json({ message: 'Student deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// --- Attendance Controllers ---
+
+// Mark daily attendance
 exports.markAttendance = async (req, res) => {
   const { student_id, date, status } = req.body;
   try {
@@ -34,6 +68,30 @@ exports.markAttendance = async (req, res) => {
   }
 };
 
+// Update an existing attendance record
+exports.updateAttendance = async (req, res) => {
+  const { id } = req.params;
+  const { status, date } = req.body;
+  try {
+    await pool.query(attendanceQueries.updateAttendance, [status, date, id]);
+    res.json({ message: 'Attendance updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Delete an attendance record
+exports.deleteAttendance = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query(attendanceQueries.deleteAttendance, [id]);
+    res.json({ message: 'Attendance deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get a detailed attendance report with student names
 exports.getAttendance = async (req, res) => {
   try {
     const [rows] = await pool.query(attendanceQueries.getAttendanceReport);
@@ -43,7 +101,9 @@ exports.getAttendance = async (req, res) => {
   }
 };
 
-// Grade Controllers
+// --- Grade Controllers ---
+
+// Add marks for a subject
 exports.addGrade = async (req, res) => {
   const { student_id, subject, marks } = req.body;
   try {
@@ -54,6 +114,7 @@ exports.addGrade = async (req, res) => {
   }
 };
 
+// Fetch grades with student names
 exports.getGrades = async (req, res) => {
   try {
     const [rows] = await pool.query(gradeQueries.getGradesWithNames);
@@ -63,14 +124,51 @@ exports.getGrades = async (req, res) => {
   }
 };
 
-// Report Controllers
+// Update marks or subject
+exports.updateGrade = async (req, res) => {
+  const { id } = req.params;
+  const { subject, marks } = req.body;
+  try {
+    await pool.query(gradeQueries.updateGrade, [subject, marks, id]);
+    res.json({ message: 'Grade updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Delete a grade record
+exports.deleteGrade = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query(gradeQueries.deleteGrade, [id]);
+    res.json({ message: 'Grade deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get list of unique subjects (to populate selection dropdowns)
+exports.getSubjects = async (req, res) => {
+  try {
+    const [rows] = await pool.query(gradeQueries.getDistinctSubjects);
+    res.json(rows.map(row => row.subject));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// --- Report Controllers ---
+
+// Fetch a combined report (Attendance % + Performance)
 exports.getReports = async (req, res) => {
   try {
-    // Combine attendance and grade data for a comprehensive report
+    // 1. Get attendance percentages (Aggregated query)
     const [attendance] = await pool.query(attendanceQueries.getAttendancePercentage);
+    
+    // 2. Get average marks and subject count (Aggregated query)
     const [grades] = await pool.query(gradeQueries.getPerformanceSummary);
     
-    // Merge data on student ID
+    // 3. Merge both data sets on Student ID
     const merged = attendance.map(att => {
       const grade = grades.find(g => g.id === att.id);
       return {

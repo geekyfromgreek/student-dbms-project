@@ -18,10 +18,16 @@
 - Implemented **Premium Glass + Neon UI Overhaul** across all pages.
 - Created reusable **Spotlight Interaction System** for cursor-following neon glows.
 - Implemented **Magnifying Lens** menu effect with interactive optics and morphisms.
-- Enhanced global styling with high-end glassmorphism and ambient glows.
+- **Full CRUD for Students**: Implemented Update and Delete with clean inline UI.
+- **Attendance Management**: Added Update and Delete functionality for records.
+- **Advanced Grading UI**: Replaced subject input with dynamic selection + "Add New Subject" logic.
+- **Teacher's Guide**: Added "Terminal Demonstration (Live SQL)" guide for presentation.
+- **UI Polish**: Streamlined submit buttons (changed "Execute INSERT" to "INSERT") and removed redundant icons for a cleaner look.
+- **Workflow Documentation**: Created `workflow.md` with a smooth technical overview of the system's data flow.
+- Final verification of all CRUD features across all modules.
 
 ## In Progress
-- Pushing to GitHub repository (`geekyfromgreek/student-dbms-project`).
+- Finalizing presentation materials.
 
 ## Pending / Next Steps
 - Guide user through final data verification on Render.
