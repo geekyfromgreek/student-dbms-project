@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Users, CalendarCheck, GraduationCap, BarChart3 } from 'lucide-react';
+import { Users, CalendarCheck, GraduationCap, BarChart3, Database } from 'lucide-react';
 import SpotlightCard from './SpotlightCard';
 
 const Sidebar = () => {
@@ -13,6 +13,7 @@ const Sidebar = () => {
     { to: '/attendance', icon: <CalendarCheck size={20} />, label: 'Attendance', color: 'rgba(16, 185, 129, 0.4)' },
     { to: '/grades', icon: <GraduationCap size={20} />, label: 'Grades', color: 'rgba(168, 85, 247, 0.4)' },
     { to: '/reports', icon: <BarChart3 size={20} />, label: 'Reports', color: 'rgba(245, 158, 11, 0.4)' },
+    { to: '/query', icon: <Database size={20} />, label: 'Custom Query', color: 'rgba(236, 72, 153, 0.4)' },
   ];
 
   useEffect(() => {

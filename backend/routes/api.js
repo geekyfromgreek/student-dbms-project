@@ -23,5 +23,7 @@ router.get('/subjects', mainController.getSubjects);
 
 // Report Route
 router.get('/reports', mainController.getReports);
+// Custom Query Route
+router.post('/query', mainController.executeCustomQuery);
 
 module.exports = router;

@@ -183,3 +183,19 @@ exports.getReports = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// --- Custom Query Controller ---
+
+// Execute an arbitrary SQL query (Note: In a real app, this is a security risk)
+exports.executeCustomQuery = async (req, res) => {
+  const { query } = req.body;
+  if (!query) {
+    return res.status(400).json({ error: "Query is required" });
+  }
+  try {
+    const [rows] = await pool.query(query);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

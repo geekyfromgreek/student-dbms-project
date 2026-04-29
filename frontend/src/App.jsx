@@ -5,6 +5,7 @@ import Students from './pages/Students';
 import Attendance from './pages/Attendance';
 import Grades from './pages/Grades';
 import Reports from './pages/Reports';
+import CustomQuery from './pages/CustomQuery';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="attendance" element={<Attendance />} />
           <Route path="grades" element={<Grades />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="query" element={<CustomQuery />} />
         </Route>
       </Routes>
     </Router>

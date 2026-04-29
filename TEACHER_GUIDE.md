@@ -172,3 +172,28 @@ Use this script to show your teacher exactly how the backend handles data.
 > SELECT g.id, s.name, g.subject, g.marks FROM grades g JOIN students s ON g.student_id = s.id;
 > ```
 *Explanation: This demonstrates a **JOIN query**, where we pull data from two different tables (students and grades) simultaneously.*
+
+---
+
+## 🏛 Object-Oriented Programming (OOP) Principles
+Even though this project uses JavaScript, it is architected using core **OOP Principles** similar to those found in **Java**. Use these points if your teacher asks how the project relates to your OOP course:
+
+### 1. Encapsulation (Data Hiding)
+Just as Java uses `private` fields and `public` methods, this project encapsulates database logic:
+- **Query Encapsulation**: SQL strings are stored in dedicated query files (`studentQueries.js`, etc.), not scattered in the UI.
+- **Controller Pattern**: The `mainController.js` acts as an interface. The frontend (View) cannot touch the database (Model) directly; it must go through the controller methods.
+
+### 2. Abstraction
+- **API Utility**: We use a centralized `api.js` utility. The rest of the app doesn't need to know the complexity of HTTP headers or baseURLs—it just calls the "abstracted" API methods.
+- **Component Abstraction**: Components like `SpotlightCard.jsx` hide complex CSS and mouse-tracking logic. Other components use them as "Black Boxes" just by passing props.
+
+### 3. Modularity & Decomposition
+The project follows the **Single Responsibility Principle**:
+- Each React Component handles exactly one part of the UI.
+- The Backend is divided into Routes, Controllers, and Queries, making the system easy to maintain and scale, just like Java Packages.
+
+### 4. Separation of Concerns (MVC Architecture)
+- **Model**: MySQL Schema (Data structure).
+- **View**: React Pages (UI representation).
+- **Controller**: Express Routes & MainController (Logic layer).
+This separation ensures that a change in the UI design doesn't require a change in the database structure, a hallmark of professional software engineering.
