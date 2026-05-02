@@ -23,7 +23,7 @@ router.get('/subjects', mainController.getSubjects);
 
 // Report Route
 router.get('/reports', mainController.getReports);
-// Custom Query Route
-router.post('/query', mainController.executeCustomQuery);
+// AI Query Route (Gemini-powered natural language → SQL)
+router.post('/ai-query', mainController.aiQuery);
 
 module.exports = router;

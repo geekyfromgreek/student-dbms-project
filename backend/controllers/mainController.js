@@ -184,18 +184,100 @@ exports.getReports = async (req, res) => {
   }
 };
 
-// --- Custom Query Controller ---
+// --- AI Query Controller ---
 
-// Execute an arbitrary SQL query (Note: In a real app, this is a security risk)
-exports.executeCustomQuery = async (req, res) => {
-  const { query } = req.body;
-  if (!query) {
-    return res.status(400).json({ error: "Query is required" });
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
+
+const PREDEFINED_QUERIES = {
+  'show all students': 'SELECT * FROM students',
+  'students absent on 2026-04-14': 'SELECT s.name, s.roll_number, a.date, a.status FROM students s JOIN attendance a ON s.id = a.student_id WHERE a.status = "Absent" AND a.date = "2026-04-14"',
+  'average marks per subject': 'SELECT subject, ROUND(AVG(marks), 2) as average_marks FROM grades GROUP BY subject',
+  'top 3 students by marks in dbms': 'SELECT s.name, g.subject, g.marks FROM students s JOIN grades g ON s.id = g.student_id WHERE g.subject = "DBMS" ORDER BY g.marks DESC LIMIT 3',
+  'who is the top student': 'SELECT s.name, SUM(g.marks) as total_marks FROM students s JOIN grades g ON s.id = g.student_id GROUP BY s.id ORDER BY total_marks DESC LIMIT 1',
+  'show me the grading list': 'SELECT s.name, g.subject, g.marks FROM students s JOIN grades g ON s.id = g.student_id ORDER BY s.name',
+  'attendance summary': 'SELECT s.name, COUNT(a.id) as total_classes, SUM(CASE WHEN a.status = "Present" THEN 1 ELSE 0 END) as attended FROM students s LEFT JOIN attendance a ON s.id = a.student_id GROUP BY s.id'
+};
+
+const DB_SCHEMA_CONTEXT = `
+You are a MySQL query generator. You MUST respond with ONLY a valid MySQL query — no explanations, no markdown, no code fences.
+
+The database "student_dbms" has these tables:
+
+TABLE: students
+  - id INT AUTO_INCREMENT PRIMARY KEY
+  - name VARCHAR(100) NOT NULL
+  - roll_number VARCHAR(20) NOT NULL UNIQUE
+  - created_at TIMESTAMP
+
+TABLE: attendance
+  - id INT AUTO_INCREMENT PRIMARY KEY
+  - student_id INT NOT NULL (FK → students.id, ON DELETE CASCADE)
+  - date DATE NOT NULL
+  - status ENUM('Present', 'Absent') NOT NULL DEFAULT 'Present'
+  - created_at TIMESTAMP
+
+TABLE: grades
+  - id INT AUTO_INCREMENT PRIMARY KEY
+  - student_id INT NOT NULL (FK → students.id, ON DELETE CASCADE)
+  - subject VARCHAR(100) NOT NULL
+  - marks INT NOT NULL (0–100)
+  - created_at TIMESTAMP
+
+RULES:
+- Only generate SELECT queries. Never generate INSERT, UPDATE, DELETE, DROP, ALTER, or any data-modifying queries.
+- Always use proper JOINs when data from multiple tables is needed.
+- Return ONLY the raw SQL query string, nothing else.
+`;
+
+exports.aiQuery = async (req, res) => {
+  const { prompt } = req.body;
+  if (!prompt || !prompt.trim()) {
+    return res.status(400).json({ error: "Please enter a question or SQL query." });
   }
+
+  const normalizedPrompt = prompt.trim().toLowerCase();
+  let sql = '';
+
   try {
-    const [rows] = await pool.query(query);
-    res.json(rows);
+    // 1. Check if it's a predefined prompt
+    if (PREDEFINED_QUERIES[normalizedPrompt]) {
+      sql = PREDEFINED_QUERIES[normalizedPrompt];
+    } 
+    // 2. Check if it's already raw SQL (basic check)
+    else if (normalizedPrompt.startsWith('select ') || normalizedPrompt.startsWith('show ') || normalizedPrompt.startsWith('describe ')) {
+      sql = prompt.trim();
+    }
+    // 3. Fallback to Gemini AI if available
+    else if (genAI) {
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const result = await model.generateContent(DB_SCHEMA_CONTEXT + "\n\nUser question: " + prompt);
+      const response = await result.response;
+      sql = response.text().trim();
+      // Clean up markdown
+      sql = sql.replace(/```sql\s*/gi, '').replace(/```\s*/g, '').trim();
+    } else {
+      return res.status(400).json({ 
+        error: "AI API key not configured and prompt didn't match a recommended query. Please provide an API key or type a direct SQL query." 
+      });
+    }
+
+    // Safety: block any non-SELECT queries
+    const firstWord = sql.split(/\s+/)[0].toUpperCase();
+    if (!['SELECT', 'SHOW', 'DESCRIBE', 'EXPLAIN'].includes(firstWord)) {
+      return res.status(400).json({ 
+        error: "Only read queries (SELECT) are allowed for safety.",
+        sql 
+      });
+    }
+
+    // Execute the SQL
+    const [rows] = await pool.query(sql);
+    res.json({ sql, results: Array.isArray(rows) ? rows : [rows] });
+
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, sql: sql || null });
   }
 };
+
